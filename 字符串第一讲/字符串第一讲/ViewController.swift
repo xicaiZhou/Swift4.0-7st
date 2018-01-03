@@ -176,7 +176,46 @@ class ViewController: UIViewController {
         ch = str2.characters.last!
         // 这里输出🇨🇳的Emoji
         print("ch = \(ch)")
-       
+        //六、字符串的索引及字符访问
+        //Swift编程语言转为 String 类型引入了 索引类型 String.Index 用于表示字符串对象中字符序列的索引值。由于 String.Index 类型也遵循了 Comparable 协议，所以它可以作为范围操作符的操作数。
+        //我们通过调用字符串对象的 index(_:offsetBy:) 实例方法即可得到指定的索引值。该方法的第一个参数填参考索引值，第二个参数填指定的偏移 n，偏移值为正数，说明返回的索引值往后挪 n 位，如果是负数，则说明往前挪 n 位。
+        //String 类型还有一个 index(_:offsetBy:limitedBy:) 实例方法，功能与 index(_:offsetBy:) 一样，只不过这里多了一个参数，第三个参数用于做边界检测，如果索引计算的结果超出了第三个参数所指定的值，那么此方法将会返回空。因此它返回的是一个Optional对象。
+        //有了索引值之后，我们就可以拿它通过字符串的 substring(with:) 实例方法获取字符串的指定子串，然后通过子串的 characters 属性中的 first 属性或 last 属性来获取到当前指定的字符了。我们下面来看一个例子：
+        
+        let str3 = "看旗帜：🇨🇳"
+        // str字符串对象的起始索引，索引值相当于0
+        let startIndex = str3.startIndex
+        // str字符串对象的末尾索引，索引值相当于：
+        // str.characters.count - 1
+        let endIndex = str3.endIndex
+        // index2作为索引2
+        let index2 = str3.index(startIndex, offsetBy: 2)
+        // index3作为索引3
+        let index3 = str3.index(startIndex, offsetBy: 3, limitedBy: endIndex)!
+        // 这里通过范围操作符构造一个Range<String.Index>对象，
+        // 作为substring方法的参数，以获取子串。
+        // 各位注意，这里必须使用 ..< 操作符，
+        // 而不能使用 ... 操作符。
+        // 因为 ... 操作符对应的是ClosedRange类型，
+        // 而不是Range类型
+        var substr = str3.substring(with: index2 ..< index3)
+        // 我们这里可以观察到，
+        // substr.characters的first字符与last字符都是同一个，
+        // 即“帜”这个字。
+        var ch2 = substr.characters.first!
+        print("ch = \(ch)")
+        ch2 = substr.characters.last!
+        print("ch = \(ch)")
+        // 这里以index3作为参考索引，
+        // 然后偏移-2表示往前移2个位置，
+        // 所以index1的索引值对应的是1
+        let index1 = str2.index(index3, offsetBy: -2)
+        // 获取第二个字符
+        substr = str3.substring(with: index1 ..< index2)
+        ch = substr.characters.first!
+        // 这里输出：
+        // 第二个字符为：旗
+        print("第二个字符为：\(ch)")
     }
 
     override func didReceiveMemoryWarning() {
